@@ -2,9 +2,10 @@
 const data = Array.from({ length: 10 }, (item, index) => ({
   label: `远程选项${index + 1}`,
   value: index + 1,
+  total: 30,
   children: Array.from({ length: 30 }, (subItem, subIndex) => ({
       label: `选项${index + 1}-${subIndex + 1}`,
-      value: (index + 1) * 10 + subIndex + 1,
+      value:   `${(index + 1)}-${subIndex + 1}`,
       leaf: true,
       parent: index + 1
   }))
@@ -13,7 +14,8 @@ export const rootData = Array.from({ length: 10 }, (item, index) => ({
   label: `远程选项${index + 1}`,
   value: index + 1,
   children: [],
-  leaf: false
+  leaf: false,
+  total: 30,
 }))
 
 // 递归函数，用于搜索并返回符合条件的叶子节点

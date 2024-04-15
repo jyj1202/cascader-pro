@@ -134,7 +134,7 @@ export default {
               this.panel.syncMultiCheckState()
             }
             if (!parentNode) {
-              console.log('level1触底');
+              console.warn('level1触底');
               return
             }
             this.$emit('menu-scroll-bottom', parentNode, resolve)

@@ -229,10 +229,6 @@ export default {
       default: () => (() => {})
     },
     popperClass: String,
-    remoteMethod: {
-      type: Function,
-      default: () => (() => {})
-    }
   },
 
   data() {
@@ -379,8 +375,9 @@ export default {
        * 1.远程搜索，将搜索结果中已加载节点不存在的，append到store中
        * 2.调用getSuggestions并update popper
        */
-      if (this.remoteMethod) {
-        this.remoteMethod(inputValue, this.remoteSearchResolve)
+      const {remoteMethod} = this.config
+      if (remoteMethod) {
+        remoteMethod(inputValue, this.remoteSearchResolve)
         return
       }
 
@@ -634,20 +631,6 @@ export default {
       const { multiple } = this;
       
       const targetNode = this.suggestions[index];
-      // if (this.remoteMethod) {
-      //   const value = targetNode[this.panel.config.value]
-      //   targetNode.checked = !targetNode.checked;
-      //   // can not modify this.checkedValue directly, use a new arr to avoid emit modify this.value
-      //   if (targetNode.checked) {
-      //     this.checkedValue = [...this.checkedValue, value]
-      //   } else {
-      //     const index = this.checkedValue.findIndex(item => item === value)
-      //     const temp = [...this.checkedValue]
-      //     temp.splice(index, 1)
-      //     index != -1 && (this.checkedValue = temp)
-      //   }
-      //   return
-      // }
 
       if (multiple) {
         const { checked } = targetNode;
@@ -717,7 +700,6 @@ export default {
         const parentNode = this.panel.store.getNodeByValue(parentVal)
         parentNode && this.panel.store.appendNode(d, parentNode)
       })
-      console.log(this.panel.getFlattedNodes(false), 'store nodes');
       
       // 3.调用前端搜索方法
       this.getSuggestions();

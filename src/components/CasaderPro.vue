@@ -4,7 +4,6 @@
     filterable
     :props="props"
     :show-all-levels="false"
-    :remote-method="remoteMethod"
     @menu-scroll-bottom="handleScrollBottom"
     @suggestion-scroll-bottom="handleSuggestionScrollBottom"
   >
@@ -48,7 +47,8 @@ export default {
               resolve(children)
             }
           }, 200);
-        }
+        },
+        remoteMethod: this.remoteMethod
       },
       searchCurrentPage: 0
     }
@@ -88,7 +88,6 @@ export default {
     },
 
     handleSuggestionScrollBottom(query, resolve) {
-      console.log(query, 'xx---');
       if (query !== '') {
         this.searchCurrentPage++
         setTimeout(() => {

@@ -53,10 +53,11 @@
     methods: {
       handleExpand() {
         const { panel, node, isDisabled, config } = this;
-        const { multiple, checkStrictly } = config;
+        const { multiple, checkStrictly, remoteMethod } = config;
 
         if (!checkStrictly && isDisabled || node.loading) return;
 
+        // 如果是动态加载并且当前节点还没加载完
         if (config.lazy && !node.loaded) {
           panel.lazyLoad(node, () => {
             // do not use cached leaf value here, invoke this.isLeaf to get new value.
@@ -65,6 +66,10 @@
             if (!isLeaf) this.handleExpand();
             if (multiple) {
               // if leaf sync checked state, else clear checked state
+              // 如果是远程搜索，不更改节点选中状态
+              if (remoteMethod) {
+                return
+              }
               const checked = isLeaf ? node.checked : false;
               this.handleMultiCheckChange(checked);
             }
