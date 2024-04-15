@@ -1,0 +1,105 @@
+<template>
+  <CascaderPro
+    v-model="selectedArr"
+    filterable
+    :props="props"
+    :show-all-levels="false"
+    :remote-method="remoteMethod"
+    @menu-scroll-bottom="handleScrollBottom"
+    @suggestion-scroll-bottom="handleSuggestionScrollBottom"
+  >
+
+  </CascaderPro>
+</template>
+
+<script>
+import { getData, searchData, rootData } from "./data";
+import CascaderPro from "./cascader";
+
+export default {
+  components: {
+    CascaderPro,
+  },
+  data() {
+    return {
+      selectedArr: [],
+      props: {
+        lazy: true,
+        multiple: true,
+        emitPath: false,
+        lazyLoad (node, resolve) {
+          console.log(node, 'node--');
+          const { level, root, isLeaf, data: nodeData } = node;
+          if (isLeaf) return resolve([])
+          setTimeout(() => {
+            if (root) {
+              resolve(rootData)
+            } else {
+              const {value: parentId} = nodeData
+              nodeData.currentPage = 1
+              nodeData.isEnd = false
+              const {data: children, total} = getData(parentId, nodeData.currentPage, 10)
+              if (node.children.length + children.length < total) {
+                nodeData.isEnd = false
+              } else {
+                nodeData.isEnd = true
+              }
+              resolve(children)
+            }
+          }, 200);
+        }
+      },
+      searchCurrentPage: 0
+    }
+  },
+  methods: {
+    remoteMethod(query, resolve) {
+      if (query !== '') {
+        this.searchCurrentPage = 1
+        // this.loading = true;
+        setTimeout(() => {
+          // this.loading = false;
+          const res = searchData(query, this.searchCurrentPage, 10)
+          resolve(res.data)
+        }, 200);
+      }
+    },
+
+    handleScrollBottom(parentNode, resolve) {
+      console.log(parentNode, 'parentNode--');
+      if (parentNode) {
+        const {data: nodeData} = parentNode
+        const {isEnd, value, total} = nodeData
+        if (isEnd) return
+        parentNode.data.currentPage++
+        setTimeout(() => {
+          const {data: children, total} = getData(value, parentNode.data.currentPage, 10)
+          nodeData.total = total
+          if (parentNode.children.length + children.length < total) {
+            nodeData.isEnd = false
+          } else {
+            nodeData.isEnd = true
+          }
+          resolve(children)
+        }, 200);
+        
+      }
+    },
+
+    handleSuggestionScrollBottom(query, resolve) {
+      console.log(query, 'xx---');
+      if (query !== '') {
+        this.searchCurrentPage++
+        setTimeout(() => {
+          const {data, total} = searchData(query, this.searchCurrentPage, 10)
+          resolve(data)
+        }, 200);
+      }
+    }
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+
+</style>
