@@ -4,6 +4,7 @@
     filterable
     :props="props"
     :show-all-levels="false"
+    remote
     @menu-scroll-bottom="handleScrollBottom"
     @suggestion-scroll-bottom="handleSuggestionScrollBottom"
   >

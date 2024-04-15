@@ -229,6 +229,10 @@ export default {
       default: () => (() => {})
     },
     popperClass: String,
+    remote: {
+      type: Boolean,
+      default: false
+    }
   },
 
   data() {
@@ -376,7 +380,7 @@ export default {
        * 2.调用getSuggestions并update popper
        */
       const {remoteMethod} = this.config
-      if (remoteMethod) {
+      if (this.remote && remoteMethod) {
         remoteMethod(inputValue, this.remoteSearchResolve)
         return
       }
@@ -504,6 +508,8 @@ export default {
       this.$nextTick(() => {
         if (this.config.multiple) {
           this.computePresentTags();
+          console.log(this.config, this.config == this.panel.config, 'config');
+          if (this.remote && this.config.remoteMethod) return
           this.presentText = this.presentTags.length ? ' ' : null;
         } else {
           this.computePresentText();
