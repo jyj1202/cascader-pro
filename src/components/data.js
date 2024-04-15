@@ -5,7 +5,8 @@ const data = Array.from({ length: 10 }, (item, index) => ({
   children: Array.from({ length: 30 }, (subItem, subIndex) => ({
       label: `选项${index + 1}-${subIndex + 1}`,
       value: (index + 1) * 10 + subIndex + 1,
-      leaf: true
+      leaf: true,
+      parent: index + 1
   }))
 }));
 export const rootData = Array.from({ length: 10 }, (item, index) => ({
@@ -30,17 +31,17 @@ function searchLeaves(node, searchString, results) {
 
 // 根据搜索字符串在树结构中查找符合条件的叶子节点，并返回扁平化的数据
 export function searchData(searchString, pageNum, pageSize) {
-  console.log('search xxxxxxxxxxx');
-  const results = [];
-  let startIndex = (pageNum - 1) * pageSize;
-  let endIndex = pageNum * pageSize;
-
-  data.forEach(node => {
-      searchLeaves(node, searchString, results);
-  });
-
-  const paginatedResults = results.slice(startIndex, endIndex);
-
+    const results = [];
+    let startIndex = (pageNum - 1) * pageSize;
+    let endIndex = pageNum * pageSize;
+    
+    data.forEach(node => {
+        searchLeaves(node, searchString, results);
+    });
+    
+    const paginatedResults = results.slice(startIndex, endIndex);
+    
+    console.log('search xxxxxxxxxxx:', paginatedResults);
   return {
       total: results.length,
       data: paginatedResults
@@ -49,13 +50,13 @@ export function searchData(searchString, pageNum, pageSize) {
 
 // 查询指定父节点下的子节点数据并进行分页
 export function getData(parentId, pageNum, pageSize) {
-  console.log('getData xxxxxxxxxxx');
   const parentIndex = parentId - 1;
   if (parentIndex >= 0 && parentIndex < data.length) {
       const parent = data[parentIndex];
       if (parent.children) {
           const startIndex = (pageNum - 1) * pageSize;
           const endIndex = pageNum * pageSize;
+          console.log('getData xxxxxxxxxxx:', parent.children.length, parent.children.slice(startIndex, endIndex));
           return {
               total: parent.children.length,
               data: parent.children.slice(startIndex, endIndex)

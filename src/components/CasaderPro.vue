@@ -28,13 +28,14 @@ export default {
         multiple: true,
         emitPath: false,
         lazyLoad (node, resolve) {
-          console.log(node, 'node--');
           const { level, root, isLeaf, data: nodeData } = node;
           if (isLeaf) return resolve([])
           setTimeout(() => {
             if (root) {
+              console.log('lazyload root');
               resolve(rootData)
             } else {
+              console.log('lazyload' , level);
               const {value: parentId} = nodeData
               nodeData.currentPage = 1
               nodeData.isEnd = false
@@ -66,12 +67,12 @@ export default {
     },
 
     handleScrollBottom(parentNode, resolve) {
-      console.log(parentNode, 'parentNode--');
       if (parentNode) {
+        console.log(parentNode, 'handleScrollBottom parentNode');
         const {data: nodeData} = parentNode
         const {isEnd, value, total} = nodeData
         if (isEnd) return
-        parentNode.data.currentPage++
+        nodeData.currentPage++
         setTimeout(() => {
           const {data: children, total} = getData(value, parentNode.data.currentPage, 10)
           nodeData.total = total

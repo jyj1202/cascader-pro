@@ -308,7 +308,12 @@ export default {
       node.loading = true;
       const resolve = dataList => {
         const parent = node.root ? null : node;
-        dataList && dataList.length && this.store.appendNodes(dataList, parent);
+        if (dataList && dataList.length) {
+          const loadedFlattedNodesVals = this.getFlattedNodes(false).map(n => n.value)
+          dataList.filter(d => !loadedFlattedNodesVals.includes(d.value)).forEach(nData => { // append into store
+            this.store.appendNode(nData, parent);
+          })
+        }
         node.loading = false;
         node.loaded = true;
 
@@ -342,21 +347,8 @@ export default {
      * public methods
     */
     calculateMultiCheckedValue() {
-      const nodeValues = this.getFlattedNodes(this.leafOnly).map(n => n.value);
-      let unLoadedVals
-      if (this.checkedValue) {
-        unLoadedVals = this.checkedValue.reduce((pre, cur) => {
-          if (nodeValues.indexOf(cur) === -1) {
-            pre.push(cur);
-          }
-          return pre;
-        }, []);
-      }
-      console.log(unLoadedVals, 'unLoadedVals');
-      const temp = this.getCheckedNodes(this.leafOnly)
+      this.checkedValue = this.getCheckedNodes(this.leafOnly)
         .map(node => node.getValueByOption());
-      unLoadedVals && temp.push(...unLoadedVals)
-      this.checkedValue = temp;
     },
     scrollIntoView() {
       if (this.$isServer) return;

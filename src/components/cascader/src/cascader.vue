@@ -373,6 +373,16 @@ export default {
         this.filtering = false;
         return;
       }
+      
+      /**
+       * jyj新增
+       * 1.远程搜索，将搜索结果中已加载节点不存在的，append到store中
+       * 2.调用getSuggestions并update popper
+       */
+      if (this.remoteMethod) {
+        this.remoteMethod(inputValue, this.remoteSearchResolve)
+        return
+      }
 
       const before = this.beforeFilter(inputValue);
       if (before && before.then) {
@@ -458,44 +468,12 @@ export default {
        */
       if (event && event.isComposing) return;
       if (val) {
-        if (this.remoteMethod) {
-          this.filtering = true
-          const resolve = (data) => {
-            if (isEmpty(data)) return
-            const arr = data.map(item => {
-              const valueKey = this.panel.config.value
-              item.checked = this.checkedValue.includes(item[valueKey])
-              const node = new Node(item, this.panel.config, null)
-              return node
-            }).filter(node => { // 过滤掉禁用的节点
-              if (node.isDisabled) return false;
-              node.text = node.getText(this.showAllLevels, this.separator) || '';
-              return true
-            });
-            this.suggestions = arr
-            this.$nextTick(this.updatePopper);
-          }
-          this.remoteMethod(val, resolve)
-        } else {
-          this.filterHandler();
-        }
+        this.filtering = true
+        this.filterHandler();
       } else {
         this.filtering = false;
       }
     },
-    // suggestionResolve(data) {
-    //   const arr = data.map(item => {
-    //     const valueKey = this.panel.config.value
-    //     item.checked = this.checkedValue.includes(item[valueKey])
-    //     const node = new Node(item, this.panel.config, null)
-    //     return node
-    //   }).filter(node => { // 过滤掉禁用的节点
-    //     if (node.isDisabled) return false;
-    //     node.text = node.getText(this.showAllLevels, this.separator) || '';
-    //     return true
-    //   });
-    //   this.suggestions = arr
-    // },
     handleClear() {
       this.presentText = '';
       this.panel.clearCheckedNodes();
@@ -557,14 +535,6 @@ export default {
     computePresentTags() {
       const { isDisabled, leafOnly, showAllLevels, separator, collapseTags } = this;
       const checkedNodes = this.getCheckedNodes(leafOnly);
-      if (this.remoteMethod) {
-        const checkedSuggestions = this.suggestions.filter(node => node.checked)
-        console.log(checkedSuggestions, 'checkedSuggestions');
-        checkedSuggestions.forEach((node) => {
-          const index = checkedNodes.findIndex(i => node.value === i.value)
-          index === -1 && checkedNodes.push(node)
-        })
-      }
       const tags = [];
 
       const genTag = node => ({
@@ -664,20 +634,20 @@ export default {
       const { multiple } = this;
       
       const targetNode = this.suggestions[index];
-      if (this.remoteMethod) {
-        const value = targetNode[this.panel.config.value]
-        targetNode.checked = !targetNode.checked;
-        // can not modify this.checkedValue directly, use a new arr to avoid emit modify this.value
-        if (targetNode.checked) {
-          this.checkedValue = [...this.checkedValue, value]
-        } else {
-          const index = this.checkedValue.findIndex(item => item === value)
-          const temp = [...this.checkedValue]
-          temp.splice(index, 1)
-          index != -1 && (this.checkedValue = temp)
-        }
-        return
-      }
+      // if (this.remoteMethod) {
+      //   const value = targetNode[this.panel.config.value]
+      //   targetNode.checked = !targetNode.checked;
+      //   // can not modify this.checkedValue directly, use a new arr to avoid emit modify this.value
+      //   if (targetNode.checked) {
+      //     this.checkedValue = [...this.checkedValue, value]
+      //   } else {
+      //     const index = this.checkedValue.findIndex(item => item === value)
+      //     const temp = [...this.checkedValue]
+      //     temp.splice(index, 1)
+      //     index != -1 && (this.checkedValue = temp)
+      //   }
+      //   return
+      // }
 
       if (multiple) {
         const { checked } = targetNode;
@@ -731,6 +701,28 @@ export default {
       return this.panel.getCheckedNodes(leafOnly);
     },
 
+    /**
+     * @author jyj
+     * 远程搜索回调
+     * @param {Array} data 
+     */
+    remoteSearchResolve(data) {
+      if (isEmpty(data)) return
+      // 1.获取已经加载的节点value list
+      const loadedFlattedNodesVals = this.panel.getFlattedNodes(false).map(n => n.value)
+
+      // 2.从data中过滤出已加载的节点, 并append到store
+      data.filter(node => !loadedFlattedNodesVals.includes(node.value)).forEach(d => { // append into store
+        const parentVal = d.parent
+        const parentNode = this.panel.store.getNodeByValue(parentVal)
+        parentNode && this.panel.store.appendNode(d, parentNode)
+      })
+      console.log(this.panel.getFlattedNodes(false), 'store nodes');
+      
+      // 3.调用前端搜索方法
+      this.getSuggestions();
+    },
+
     bindScrollbarListener() {
       if (this.$refs.suggestionPanel.override) {
         return
@@ -745,22 +737,7 @@ export default {
           poor == Math.ceil(wrap.scrollTop) ||
           poor == Math.floor(wrap.scrollTop)
         ) {
-          const resolve = (data) => {
-            if (isEmpty(data)) return
-            const arr = data.map(item => {
-              const valueKey = this.panel.config.value
-              item.checked = this.checkedValue.includes(item[valueKey])
-              const node = new Node(item, this.panel.config, null)
-              return node
-            }).filter(node => { // 过滤掉禁用的节点
-              if (node.isDisabled) return false;
-              node.text = node.getText(this.showAllLevels, this.separator) || '';
-              return true
-            });
-            this.suggestions.push(...arr)
-            this.$nextTick(this.updatePopper);
-          }
-          this.$emit('suggestion-scroll-bottom', this.inputValue, resolve)
+          this.$emit('suggestion-scroll-bottom', this.inputValue, this.remoteSearchResolve)
         }
       }
       this.$refs.suggestionPanel.override = true

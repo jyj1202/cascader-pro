@@ -124,9 +124,18 @@ export default {
           ) {
             let parentNode = this.nodes[0]?.parent
             const resolve = (data) => {
-              this.panel.store.appendNodes(data, parentNode)
+              // append不存在的节点
+              data.forEach(d => {
+                const loadedVals = parentNode.children.map(n => n.getValue())
+                const index = loadedVals.findIndex(v => v === d[this.panel.config.value])
+                index == -1 && this.panel.store.appendNode(d, parentNode)
+              })
               // 同步checkedValue到节点checked
               this.panel.syncMultiCheckState()
+            }
+            if (!parentNode) {
+              console.log('level1触底');
+              return
             }
             this.$emit('menu-scroll-bottom', parentNode, resolve)
           }
