@@ -2,6 +2,7 @@
   "name": "cascader-pro",
   "version": "0.1.0",
   "private": true,
+  "description": "在element-ui 的级联选择器基础上增加了滚动加载、远程搜索（滚动加载）",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -9,10 +10,7 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
-    "element-ui": "^2.15.14",
-    "lazy-cascader": "^1.1.0",
-    "throttle-debounce": "1.1.0",
-    "vue": "^2.6.14"
+    "throttle-debounce": "1.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -20,10 +18,10 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "element-ui": "^2.15.14",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
-    "less": "^4.2.0",
-    "less-loader": "^12.2.0",
+    "vue": "^2.6.14",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {

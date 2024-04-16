@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <ElCascaderTest class="mr-10"></ElCascaderTest>
-    <!-- <LazyCascader></LazyCascader> -->
     pro
     <CasaderPro class="mr-10"></CasaderPro>
 
@@ -17,7 +16,6 @@
 </template>
 
 <script>
-import LazyCascader from "./components/LaszyCascader";
 import ElCascaderTest from "./components/ElCascaderTest";
 import CasaderPro from "./components/CasaderPro";
 
@@ -25,7 +23,6 @@ import CasaderPro from "./components/CasaderPro";
 export default {
   name: 'App',
   components: {
-    LazyCascader,
     ElCascaderTest,
     CasaderPro
   },
