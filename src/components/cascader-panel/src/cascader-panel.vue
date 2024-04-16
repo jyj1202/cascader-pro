@@ -44,6 +44,7 @@ const DefaultProps = {
   children: 'children',
   leaf: 'leaf',
   disabled: 'disabled',
+  total: 'total',  // add by jyj, mean the key name of the total number of node.children
   hoverThreshold: 500
 };
 

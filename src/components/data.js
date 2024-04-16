@@ -43,7 +43,7 @@ export function searchData(searchString, pageNum, pageSize) {
     
     const paginatedResults = results.slice(startIndex, endIndex);
     
-    console.log('search xxxxxxxxxxx:', paginatedResults);
+    console.log('search xxxxxxxxxxx:',searchString, pageNum, pageSize, paginatedResults);
   return {
       total: results.length,
       data: paginatedResults

@@ -59,16 +59,16 @@
 
         // 如果是动态加载并且当前节点还没加载完
         if (config.lazy && !node.loaded) {
-          panel.lazyLoad(node, () => {
+          panel.lazyLoad(node, () => {  // 动态加载后的回调
             // do not use cached leaf value here, invoke this.isLeaf to get new value.
             const { isLeaf } = this;
 
             if (!isLeaf) this.handleExpand();
             if (multiple) {
               // if leaf sync checked state, else clear checked state
-              // 如果是远程搜索，不更改节点选中状态
+              // 如果是远程搜索，通过子节点状态决定父节点选中状态
               if (remoteMethod) {
-                return
+                return node.onChildCheck()
               }
               const checked = isLeaf ? node.checked : false;
               this.handleMultiCheckChange(checked);

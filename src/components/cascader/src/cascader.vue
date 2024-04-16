@@ -129,7 +129,6 @@ import { isUndefined, isFunction } from 'element-ui/src/utils/types';
 import { isDef } from 'element-ui/src/utils/shared';
 import { addResizeListener, removeResizeListener } from 'element-ui/src/utils/resize-event';
 import debounce from 'throttle-debounce/debounce';
-import Node from "../../cascader-panel/src/node";
 
 const { keys: KeyCode } = AriaUtils;
 const MigratingProps = {
@@ -652,8 +651,6 @@ export default {
       const current = tag.node.getValueByOption();
       const val = checkedValue.find(n => isEqual(n, current));
       this.checkedValue = checkedValue.filter(n => !isEqual(n, current));
-      const suggestion = this.suggestions.find(s => s.value === tag.node.value)
-      suggestion && (suggestion.checked = false)
       this.$emit('remove-tag', val);
     },
     updateStyle() {

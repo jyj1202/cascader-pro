@@ -72,7 +72,7 @@ export default {
         console.log(parentNode, 'handleScrollBottom parentNode');
         const {data: nodeData} = parentNode
         const {isEnd, value, total} = nodeData
-        if (isEnd) return
+        // if (isEnd) return
         nodeData.currentPage++
         setTimeout(() => {
           const {data: children, total} = getData(value, parentNode.data.currentPage, 10)

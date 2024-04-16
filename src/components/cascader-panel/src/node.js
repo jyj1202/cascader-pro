@@ -17,10 +17,11 @@ export default class Node {
   }
 
   initState() {
-    const { value: valueKey, label: labelKey } = this.config;
+    const { value: valueKey, label: labelKey, total: totalKey } = this.config;
 
     this.value = this.data[valueKey];
     this.label = this.data[labelKey];
+    this.total = this.data[totalKey]; // add by jyj
     this.pathNodes = this.calculatePathNodes();
     this.path = this.pathNodes.map(node => node.value);
     this.pathLabels = this.pathNodes.map(node => node.label);
@@ -128,22 +129,40 @@ export default class Node {
   onChildCheck() {
     const { children } = this;
     const validChildren = children.filter(child => !child.isDisabled);
-    const checked = validChildren.length
-      ? validChildren.every(child => child.checked)
-      : false;
 
+    let checked
+    /**
+     * FIXME:如果有效的加载完并全选中，但是无效的节点没加载完，这时下面的逻辑就有问题，需要用户告知无效节点数量
+     * add by jyj
+     * 有远程搜索，需要判断total是否等于选中子节点数量
+     */
+    if (this.config.remoteMethod && typeof this.total === 'number') {
+      const invalidNum = children.filter(child => child.isDisabled).length;
+      const checkedNum = validChildren.filter(child => child.checked).length;
+      checked = (invalidNum + checkedNum == this.total)
+    } else {
+      checked = validChildren.length
+        ? validChildren.every(child => child.checked)
+        : false;
+    }
     this.setCheckState(checked);
   }
 
   setCheckState(checked) {
-    const totalNum = this.children.length;
+    let totalNum = this.children.length;
+    /**
+     * add by jyj
+     * 有远程搜索的情况下，优先使用用户传入的node.data.total
+     */
+    if (this.config.remoteMethod && typeof this.total === 'number') {
+      totalNum = this.total;
+    }
     const checkedNum = this.children.reduce((c, p) => {
       const num = p.checked ? 1 : (p.indeterminate ? 0.5 : 0);
       return c + num;
     }, 0);
-
     this.checked = checked;
-    this.indeterminate = checkedNum !== totalNum && checkedNum > 0;
+    this.indeterminate = checkedNum !== totalNum && checkedNum > 0; // 设置半选
   }
 
   syncCheckState(checkedValue) {
@@ -154,8 +173,7 @@ export default class Node {
   }
 
   doCheck(checked) {
-    // TODO: fix
-    // if (this.checked !== checked) {
+    if (this.checked !== checked) {
       if (this.config.checkStrictly) {
         this.checked = checked;
       } else {
@@ -164,6 +182,6 @@ export default class Node {
         this.setCheckState(checked);
         this.emit('check');
       }
-    // }
+    }
   }
 }
