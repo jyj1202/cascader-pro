@@ -39,14 +39,6 @@ export default class Store {
     nodeDataList.forEach(nodeData => this.appendNode(nodeData, parentNode));
   }
 
-  deleteNode(node, parentNode) {
-    const children = parentNode ? parentNode.children : this.nodes;
-    const index = children.findIndex(n => n.value === node.value);
-    if (index != -1) {
-      children.splice(index, 1);
-    }
-  }
-
   getNodes() {
     return this.nodes;
   }

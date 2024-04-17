@@ -126,22 +126,12 @@ export default {
             poor == Math.floor(wrap.scrollTop)
           ) {
             let parentNode = this.nodes[0] && this.nodes[0].parent
-            const resolve = (dataList) => {
-              // debugger
+            const resolve = (data) => {
               // append当前父节点中不存在的节点到
-              // append dataList，没加载的节点直接append，已经加载的节点替换
-              dataList.forEach(d => {
-                // const loadedVals = parentNode.children.map(n => n.getValue())
-                // const index = loadedVals.findIndex(v => v === d[this.panel.config.value])
-                // index == -1 && this.panel.store.appendNode(d, parentNode)
-                
-                const loadedNode = parentNode.children.find(n => n.value === d[this.panel.config.value])
-                if (loadedNode) {
-                  d.checked = loadedNode.checked
-                  this.panel.store.deleteNode(loadedNode, parentNode)
-                }
-                this.panel.store.appendNode(d, parentNode)
-
+              data.forEach(d => {
+                const loadedVals = parentNode.children.map(n => n.getValue())
+                const index = loadedVals.findIndex(v => v === d[this.panel.config.value])
+                index == -1 && this.panel.store.appendNode(d, parentNode)
               })
               // 同步checkedValue到节点checked
               this.panel.syncMultiCheckState()

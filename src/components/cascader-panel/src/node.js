@@ -166,7 +166,8 @@ export default class Node {
   }
 
   syncCheckState(checkedValue) {
-    const checked = this.isSameNode(checkedValue);
+    const value = this.getValueByOption();
+    const checked = this.isSameNode(checkedValue, value);
 
     this.doCheck(checked);
   }
