@@ -310,9 +310,19 @@ export default {
       const resolve = dataList => {
         const parent = node.root ? null : node;
         if (dataList && dataList.length) {
-          const loadedFlattedNodesVals = this.getFlattedNodes(false).map(n => n.value)
-          dataList.filter(d => !loadedFlattedNodesVals.includes(d.value)).forEach(nData => { // append into store
-            this.store.appendNode(nData, parent);
+          // const loadedFlattedNodesVals = this.getFlattedNodes(false).map(n => n.value)
+          // dataList.filter(d => !loadedFlattedNodesVals.includes(d.value)).forEach(nData => { // append into store
+          //   this.store.appendNode(nData, parent);
+          // })
+
+          const loadedFlattedNodes = this.getFlattedNodes(false);
+          dataList.forEach(d => {
+            const loadedNode = loadedFlattedNodes.find(n => n.value === d[this.config.value])
+            if (loadedNode) {
+              d.checked = loadedNode.checked
+              this.store.deleteNode(loadedNode, parent)
+            }
+            this.store.appendNode(d, parent)
           })
         }
         node.loading = false;
