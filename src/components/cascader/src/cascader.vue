@@ -507,7 +507,6 @@ export default {
       this.$nextTick(() => {
         if (this.config.multiple) {
           this.computePresentTags();
-          console.log(this.config, this.config == this.panel.config, 'config');
           if (this.remote && this.config.remoteMethod) return
           this.presentText = this.presentTags.length ? ' ' : null;
         } else {
