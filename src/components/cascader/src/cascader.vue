@@ -380,7 +380,7 @@ export default {
        */
       const {remoteMethod} = this.config
       if (this.remote && remoteMethod) {
-        remoteMethod(inputValue, this.remoteSearchResolve)
+        remoteMethod(inputValue, this.remoteSearchResolve(inputValue))
         return
       }
 
@@ -692,29 +692,30 @@ export default {
      * 远程搜索回调
      * @param {Array} data 
      */
-    remoteSearchResolve(data) {
-      if (isEmpty(data)) return
-      // 1.获取已经加载的节点value list
-      const loadedFlattedNodesVals = this.panel.getFlattedNodes(false).map(n => n.value)
+    remoteSearchResolve(inputValue) {
+      const resolve = (data) => {
+        if (isEmpty(data)) return
+        // 1.获取已经加载的节点value list
+        const loadedFlattedNodesVals = this.panel.getFlattedNodes(false).map(n => n.value)
 
-      // 2.从data中过滤掉出没加载的数据, 并append到store
-      data.filter(node => !loadedFlattedNodesVals.includes(node.value)).forEach(d => { // append into store
-        const parentVal = d.parent
-        const parentNode = this.panel.store.getNodeByValue(parentVal)
-        parentNode && this.panel.store.appendNode(d, parentNode)
-        // if (Array.isArray(parentVal)) {
-        //   parentVal.forEach(pv => {
-        //     const parentNode = this.panel.store.getNodeByValue(pv)
-        //     parentNode && this.panel.store.appendNode(d, parentNode)
-        //   })
-        // } else {
-        //   const parentNode = this.panel.store.getNodeByValue(parentVal)
-        //   parentNode && this.panel.store.appendNode(d, parentNode)
-        // }
-      })
-      
-      // 3.调用前端搜索方法
-      this.getSuggestions();
+        // 2.从data中过滤掉出没加载的数据, 并append到store
+        const toAppendData = data.filter(node => !loadedFlattedNodesVals.includes(node.value))
+        // 2.1 如果没有待append的数据，说明用户给的data都是已经加载过的，那么emit触底事件
+        if (toAppendData.length == 0) {
+          this.$nextTick(() => {
+            this.$emit('suggestion-scroll-bottom', inputValue, resolve)
+          })
+        }
+        toAppendData.forEach(d => { // append into store
+          const parentVal = d.parent
+          const parentNode = this.panel.store.getNodeByValue(parentVal)
+          parentNode && this.panel.store.appendNode(d, parentNode)
+        })
+        
+        // 3.调用前端搜索方法
+        this.getSuggestions();
+      }
+      return resolve
     },
 
     bindScrollbarListener() {
@@ -731,7 +732,7 @@ export default {
           poor == Math.ceil(wrap.scrollTop) ||
           poor == Math.floor(wrap.scrollTop)
         ) {
-          this.$emit('suggestion-scroll-bottom', this.inputValue, this.remoteSearchResolve)
+          this.$emit('suggestion-scroll-bottom', this.inputValue, this.remoteSearchResolve(this.inputValue))
         }
       }
       this.$refs.suggestionPanel.override = true
