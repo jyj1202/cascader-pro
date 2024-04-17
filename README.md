@@ -1,24 +1,7 @@
-# cascader-pro
+# vue-lazy-cascader
+- 在element-ui 的级联选择器基础上增加了滚动加载、远程搜索（滚动加载）
 
-## Project setup
+## Use
 ```
-pnpm install
+pnpm install vue-lazy-cascader -S
 ```
-
-### Compiles and hot-reloads for development
-```
-pnpm run serve
-```
-
-### Compiles and minifies for production
-```
-pnpm run build
-```
-
-### Lints and fixes files
-```
-pnpm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

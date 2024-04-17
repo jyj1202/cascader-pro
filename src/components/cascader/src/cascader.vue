@@ -175,7 +175,7 @@ const InputSizeMap = {
 };
 
 export default {
-  name: 'ElCascaderPro',
+  name: 'VueLazyCascader',
 
   directives: { Clickoutside },
 

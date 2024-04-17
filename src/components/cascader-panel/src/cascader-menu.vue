@@ -122,7 +122,7 @@ export default {
             poor == Math.ceil(wrap.scrollTop) ||
             poor == Math.floor(wrap.scrollTop)
           ) {
-            let parentNode = this.nodes[0]?.parent
+            let parentNode = this.nodes[0] && this.nodes[0].parent
             const resolve = (data) => {
               // append不存在的节点
               data.forEach(d => {

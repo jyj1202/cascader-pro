@@ -152,9 +152,9 @@ export default class Node {
     let totalNum = this.children.length;
     /**
      * add by jyj
-     * 有远程搜索的情况下，优先使用用户传入的node.data.total
+     * 优先使用用户传入的node.data.total
      */
-    if (this.config.remoteMethod && typeof this.total === 'number') {
+    if (typeof this.total === 'number') {
       totalNum = this.total;
     }
     const checkedNum = this.children.reduce((c, p) => {

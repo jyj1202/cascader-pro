@@ -1,11 +1,16 @@
 {
-  "name": "cascader-pro",
-  "version": "0.1.0",
-  "private": true,
+  "name": "vue-lazy-cascader",
+  "version": "0.1.5",
+  "private": false,
   "description": "在element-ui 的级联选择器基础上增加了滚动加载、远程搜索（滚动加载）",
+  "main": "./lib/vue-lazy-cascader.common.js",
+  "files": [
+    "lib",
+    "src"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --target lib --name vue-lazy-cascader ./src/components/cascader/index.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
