@@ -697,11 +697,20 @@ export default {
       // 1.获取已经加载的节点value list
       const loadedFlattedNodesVals = this.panel.getFlattedNodes(false).map(n => n.value)
 
-      // 2.从data中过滤出已加载的节点, 并append到store
+      // 2.从data中过滤掉出没加载的数据, 并append到store
       data.filter(node => !loadedFlattedNodesVals.includes(node.value)).forEach(d => { // append into store
         const parentVal = d.parent
         const parentNode = this.panel.store.getNodeByValue(parentVal)
         parentNode && this.panel.store.appendNode(d, parentNode)
+        // if (Array.isArray(parentVal)) {
+        //   parentVal.forEach(pv => {
+        //     const parentNode = this.panel.store.getNodeByValue(pv)
+        //     parentNode && this.panel.store.appendNode(d, parentNode)
+        //   })
+        // } else {
+        //   const parentNode = this.panel.store.getNodeByValue(parentVal)
+        //   parentNode && this.panel.store.appendNode(d, parentNode)
+        // }
       })
       
       // 3.调用前端搜索方法

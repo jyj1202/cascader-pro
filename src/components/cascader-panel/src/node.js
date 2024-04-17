@@ -134,9 +134,9 @@ export default class Node {
     /**
      * FIXME:如果有效的加载完并全选中，但是无效的节点没加载完，这时下面的逻辑就有问题，需要用户告知无效节点数量
      * add by jyj
-     * 有远程搜索，需要判断total是否等于选中子节点数量
+     * 优先使用用户传入的total，需要判断total是否等于选中子节点数量
      */
-    if (this.config.remoteMethod && typeof this.total === 'number') {
+    if (typeof this.total === 'number') {
       const invalidNum = children.filter(child => child.isDisabled).length;
       const checkedNum = validChildren.filter(child => child.checked).length;
       checked = (invalidNum + checkedNum == this.total)

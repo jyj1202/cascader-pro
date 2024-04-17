@@ -107,6 +107,9 @@ export default {
       ];
     },
 
+    /**
+     * menu触底处理
+     */
     bindScrollbarListener() {
       this.$nextTick(() => {
         if (this.$refs.scrollbar.override) {
@@ -124,7 +127,7 @@ export default {
           ) {
             let parentNode = this.nodes[0] && this.nodes[0].parent
             const resolve = (data) => {
-              // append不存在的节点
+              // append当前父节点中不存在的节点到
               data.forEach(d => {
                 const loadedVals = parentNode.children.map(n => n.getValue())
                 const index = loadedVals.findIndex(v => v === d[this.panel.config.value])
