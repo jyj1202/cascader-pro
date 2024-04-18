@@ -1,5 +1,5 @@
 <template>
-  <CascaderPro
+  <VueLazyCascader
     v-model="selectedArr"
     filterable
     :props="props"
@@ -9,16 +9,17 @@
     @suggestion-scroll-bottom="handleSuggestionScrollBottom"
   >
 
-  </CascaderPro>
+  </VueLazyCascader>
 </template>
 
 <script>
 import { getData, searchData, rootData } from "./data";
-import CascaderPro from "./cascader";
+import VueLazyCascader from "./cascader";
+// import VueLazyCascader from "vue-lazy-cascader";
 
 export default {
   components: {
-    CascaderPro,
+    VueLazyCascader,
   },
   data() {
     return {

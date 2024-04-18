@@ -2,7 +2,7 @@
   <div id="app">
     <ElCascaderTest class="mr-10"></ElCascaderTest>
     pro
-    <CasaderPro class="mr-10"></CasaderPro>
+    <VueLazyCascaderExample class="mr-10"></VueLazyCascaderExample>
 
     <el-select v-model="value1" multiple filterable placeholder="请选择">
       <el-option
@@ -17,14 +17,14 @@
 
 <script>
 import ElCascaderTest from "./components/ElCascaderTest";
-import CasaderPro from "./components/CasaderPro";
+import VueLazyCascaderExample from "./components/VueLazyCascaderExample";
 
 
 export default {
   name: 'App',
   components: {
     ElCascaderTest,
-    CasaderPro
+    VueLazyCascaderExample
   },
   data() {
     return {

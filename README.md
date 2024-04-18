@@ -24,8 +24,13 @@ yarn add vue-lazy-cascader
 pnpm install vue-lazy-cascader --save
 ```
 
+## Tip
+由于该组件并未打包element-ui相关组件，所以使用时，必须已经安装element-ui。
+
 ## 使用方法
 
 ```javascript
 import VueLazyCascader from "vue-lazy-cascader";
 ```
+
+[es模块示例](./src/components/VueLazyCascaderExample.vue)
