@@ -315,6 +315,8 @@ export default {
             this.store.appendNode(nData, parent);
           })
         }
+        this.syncMultiCheckState()
+        this.$parent.computePresentContent()
         node.loading = false;
         node.loaded = true;
 

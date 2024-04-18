@@ -710,6 +710,8 @@ export default {
           const parentNode = this.panel.store.getNodeByValue(parentVal)
           parentNode && this.panel.store.appendNode(d, parentNode)
         })
+        // 3.根据checkedValue同步多选状态（用户一开始就传入了选中的value）
+        this.panel.syncMultiCheckState()
         
         // 3.调用前端搜索方法
         this.getSuggestions();

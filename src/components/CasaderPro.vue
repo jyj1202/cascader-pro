@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      selectedArr: [],
+      selectedArr: ['1-1', '1-2'],
       props: {
         lazy: true,
         multiple: true,

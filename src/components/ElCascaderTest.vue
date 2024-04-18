@@ -14,7 +14,7 @@ let id = 0
 export default {
   data() {
     return {
-      selectedArr: [],
+      selectedArr: [4],
       props: {
         lazy: true,
         multiple: true,
