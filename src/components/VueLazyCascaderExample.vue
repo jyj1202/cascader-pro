@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      selectedArr: ['1-1', '1-2'],
+      selectedArr: ['1-1', '1-15'],
       props: {
         lazy: true,
         multiple: true,

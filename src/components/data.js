@@ -8,7 +8,7 @@ const data = Array.from({ length: 10 }, (item, index) => ({
       value:   `${(index + 1)}-${subIndex + 1}`,
       leaf: true,
       parent: index + 1,
-      disabled: subIndex == 1
+      disabled: subIndex == 14
   }))
 }));
 export const rootData = Array.from({ length: 10 }, (item, index) => ({

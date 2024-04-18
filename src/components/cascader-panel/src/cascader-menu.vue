@@ -137,6 +137,7 @@ export default {
                 })
                 return
               }
+              this.$parent.$parent.computePresentContent()
               toAppendData.forEach(d => {
                 this.panel.store.appendNode(d, parentNode)
               })
