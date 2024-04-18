@@ -2,7 +2,7 @@
 import ElScrollbar from 'element-ui/packages/scrollbar';
 import CascaderNode from './cascader-node.vue';
 import Locale from 'element-ui/src/mixins/locale';
-import { generateId } from 'element-ui/src/utils/util';
+import { generateId, isEmpty } from 'element-ui/src/utils/util';
 
 export default {
   name: 'ElCascaderMenu',
@@ -127,11 +127,18 @@ export default {
           ) {
             let parentNode = this.nodes[0] && this.nodes[0].parent
             const resolve = (data) => {
+              if (isEmpty(data)) return // 必须return，否则可能会死循环
               // append当前父节点中不存在的节点到
-              data.forEach(d => {
-                const loadedVals = parentNode.children.map(n => n.getValue())
-                const index = loadedVals.findIndex(v => v === d[this.panel.config.value])
-                index == -1 && this.panel.store.appendNode(d, parentNode)
+              const loadedVals = parentNode.children.map(n => n.getValue())
+              const toAppendData = data.filter(d => !loadedVals.includes(d[this.panel.config.value]))
+              if (toAppendData.length == 0) {
+                this.$nextTick(() => {
+                  this.$emit('menu-scroll-bottom', parentNode, resolve)
+                })
+                return
+              }
+              toAppendData.forEach(d => {
+                this.panel.store.appendNode(d, parentNode)
               })
               // 同步checkedValue到节点checked
               this.panel.syncMultiCheckState()

@@ -698,7 +698,7 @@ export default {
         const loadedFlattedNodesVals = this.panel.getFlattedNodes(false).map(n => n.value)
 
         // 2.从data中过滤掉出没加载的数据, 并append到store
-        const toAppendData = data.filter(node => !loadedFlattedNodesVals.includes(node.value))
+        const toAppendData = data.filter(d => !loadedFlattedNodesVals.includes(d[this.panel.config.value]))
         // 2.1 如果没有待append的数据，说明用户给的data都是已经加载过的，那么emit触底事件
         if (toAppendData.length == 0) {
           this.$nextTick(() => {
@@ -711,7 +711,7 @@ export default {
           parentNode && this.panel.store.appendNode(d, parentNode)
         })
         // 3.根据checkedValue同步多选状态（用户一开始就传入了选中的value）
-        this.panel.syncMultiCheckState()
+        toAppendData.length && this.panel.syncMultiCheckState()
         
         // 3.调用前端搜索方法
         this.getSuggestions();

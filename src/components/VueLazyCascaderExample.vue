@@ -14,7 +14,8 @@
 
 <script>
 import { getData, searchData, rootData } from "./data";
-import VueLazyCascader from "../../lib/vue-lazy-cascader.umd.js";
+import VueLazyCascader from "./cascader";
+// import VueLazyCascader from "../../lib/vue-lazy-cascader.umd.js";
 // import VueLazyCascader from "vue-lazy-cascader";
 
 export default {
