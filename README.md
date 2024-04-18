@@ -29,8 +29,10 @@ pnpm install vue-lazy-cascader --save
 
 ## 使用方法
 
+> [es模块示例](./src/components/VueLazyCascaderExample.vue)
+
 ```javascript
 import VueLazyCascader from "vue-lazy-cascader";
 ```
 
-[es模块示例](./src/components/VueLazyCascaderExample.vue)
+> [直接script引入示例](./example/index.html)

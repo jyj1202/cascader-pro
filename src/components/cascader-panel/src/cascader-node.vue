@@ -86,7 +86,6 @@
       },
 
       handleMultiCheckChange(checked) {
-        console.log(checked, 'checked---');
         this.node.doCheck(checked);
         this.panel.calculateMultiCheckedValue();
       },
