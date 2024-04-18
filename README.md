@@ -1,7 +1,31 @@
-# vue-lazy-cascader
-- 在element-ui 的级联选择器基础上增加了滚动加载、远程搜索（滚动加载）
+# Vue Lazy Cascader
 
-## Use
+Vue Lazy Cascader 是一个vue2级联选择器组件，基于 element-ui 的级联组件。它保留了 el-cascader 的完整功能，并增加了滚动加载和远程搜索功能。
+
+## 安装
+
+您可以通过 npm、yarn 或 pnpm 来安装 Vue Lazy Cascader。
+
+### npm
+
+```bash
+npm install vue-lazy-cascader --save
 ```
-pnpm install vue-lazy-cascader -S
+
+### yarn
+
+```bash
+yarn add vue-lazy-cascader
+```
+
+### pnpm
+
+```bash
+pnpm install vue-lazy-cascader --save
+```
+
+## 使用方法
+
+```javascript
+import VueLazyCascader from "vue-lazy-cascader";
 ```

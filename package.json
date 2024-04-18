@@ -1,16 +1,31 @@
 {
   "name": "vue-lazy-cascader",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": false,
-  "description": "在element-ui 的级联选择器基础上增加了滚动加载、远程搜索（滚动加载）",
-  "main": "./lib/vue-lazy-cascader.common.js",
+  "description": "A cascader component based on element-ui, which retains the basic functionality of el-cascader while adding remote search and scroll loading of nodes.",
+  "main": "./lib/vue-lazy-cascader.umd.min.js",
   "files": [
     "lib",
-    "src"
+    "README.md"
   ],
+  "keywords": [
+    "vue",
+    "element-ui",
+    "vue-lazy-cascader",
+    "remote search",
+    "scroll to load"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jyj1202/cascader-pro.git"
+  },
+  "author": "jyj1202",
+  "peerDependencies": {
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name vue-lazy-cascader ./src/components/cascader/index.js",
+    "build:example": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
