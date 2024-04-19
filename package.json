@@ -1,6 +1,6 @@
 {
   "name": "vue-lazy-cascader",
-  "version": "0.1.14",
+  "version": "0.1.16",
   "private": false,
   "description": "A cascader component based on element-ui, which retains the basic functionality of el-cascader while adding remote search and scroll loading of nodes.",
   "main": "./lib/vue-lazy-cascader.umd.min.js",

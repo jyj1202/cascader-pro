@@ -715,6 +715,10 @@ export default {
         
         // 3.调用前端搜索方法
         this.getSuggestions();
+        
+        this.$nextTick(() => {
+          this.$refs.suggestionPanel.update()
+        })
       }
       return resolve
     },

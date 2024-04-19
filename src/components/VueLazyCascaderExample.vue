@@ -19,7 +19,8 @@ import VueLazyCascader from "./cascader";
 // import VueLazyCascader from "../../lib/vue-lazy-cascader.umd.js";
 // import VueLazyCascader from "vue-lazy-cascader";
 
-const options = Array.from({ length: 5 }, (item, index) => ({
+// 如果传入了options并且有值，那么不会再触发level1的懒加载
+const options = Array.from({ length: 10 }, (item, index) => ({
   label: `远程选项${index + 1}`,
   value: index + 1,
   children: Array.from({ length: 15 }, (subItem, subIndex) => ({
@@ -92,7 +93,7 @@ export default {
         nodeData.currentPage = nodeData.currentPage || 0
         nodeData.currentPage++
         setTimeout(() => {
-          const {data: children, total} = getData(value, parentNode.data.currentPage, 10)
+          const {data: children, total} = getData(value, parentNode.data.currentPage, 5)
           nodeData.total = total
           if (parentNode.children.length + children.length < total) {
             nodeData.isEnd = false
