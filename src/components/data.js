@@ -59,7 +59,7 @@ export function getData(parentId, pageNum, pageSize) {
       if (parent.children) {
           const startIndex = (pageNum - 1) * pageSize;
           const endIndex = pageNum * pageSize;
-          console.log('getData xxxxxxxxxxx:', parent.children.length, parent.children.slice(startIndex, endIndex));
+          console.log('getData xxxxxxxxxxx:', pageNum, pageSize, parent.children.length, parent.children.slice(startIndex, endIndex));
           return {
               total: parent.children.length,
               data: parent.children.slice(startIndex, endIndex)

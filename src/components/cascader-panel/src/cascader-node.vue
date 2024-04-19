@@ -57,7 +57,7 @@
         
         if (!checkStrictly && isDisabled || node.loading) return;
         
-        // 如果是动态加载并且当前节点还没加载完
+        // 如果是动态加载并且当前节点还没加载
         if (config.lazy && !node.loaded) {
           panel.lazyLoad(node, () => {  // 动态加载后的回调
             // do not use cached leaf value here, invoke this.isLeaf to get new value.

@@ -4,6 +4,7 @@
     filterable
     :props="props"
     :show-all-levels="false"
+    :options="options"
     remote
     @menu-scroll-bottom="handleScrollBottom"
     @suggestion-scroll-bottom="handleSuggestionScrollBottom"
@@ -18,6 +19,19 @@ import VueLazyCascader from "./cascader";
 // import VueLazyCascader from "../../lib/vue-lazy-cascader.umd.js";
 // import VueLazyCascader from "vue-lazy-cascader";
 
+const options = Array.from({ length: 5 }, (item, index) => ({
+  label: `远程选项${index + 1}`,
+  value: index + 1,
+  children: Array.from({ length: 15 }, (subItem, subIndex) => ({
+      label: `选项${index + 1}-${subIndex + 1}`,
+      value:   `${(index + 1)}-${subIndex + 1}`,
+      leaf: true,
+      parent: index + 1,
+      disabled: subIndex == 14
+  })),
+  leaf: false,
+  total: 30,
+}))
 export default {
   components: {
     VueLazyCascader,
@@ -25,6 +39,7 @@ export default {
   data() {
     return {
       selectedArr: ['1-1', '1-15'],
+      options: options,
       props: {
         lazy: true,
         multiple: true,
@@ -71,10 +86,10 @@ export default {
 
     handleScrollBottom(parentNode, resolve) {
       if (parentNode) {
-        console.log(parentNode, 'handleScrollBottom parentNode');
         const {data: nodeData} = parentNode
         const {isEnd, value, total} = nodeData
         // if (isEnd) return
+        nodeData.currentPage = nodeData.currentPage || 0
         nodeData.currentPage++
         setTimeout(() => {
           const {data: children, total} = getData(value, parentNode.data.currentPage, 10)

@@ -217,6 +217,8 @@ export default {
         const value = multiple ? checkedValue[0] : checkedValue;
         const checkedNode = this.getNodeByValue(value) || {};
         const nodes = (checkedNode.pathNodes || []).slice(0, -1);
+        const hasUnLoaded = nodes.some(n => n.loaded === false)
+        if (hasUnLoaded) return
         this.expandNodes(nodes);
       } else {
         this.activePath = [];
