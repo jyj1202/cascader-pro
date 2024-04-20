@@ -3,7 +3,7 @@
   "version": "0.1.17",
   "private": false,
   "description": "A cascader component based on element-ui, which retains the basic functionality of el-cascader while adding remote search and scroll loading of nodes.",
-  "main": "./lib/vue-lazy-cascader.umd.min.js",
+  "main": "./dist/lib/vue-lazy-cascader.umd.min.js",
   "files": [
     "dist/lib",
     "README.md",
@@ -20,6 +20,7 @@
     "type": "git",
     "url": "git+https://github.com/jyj1202/vue-lazy-cascader.git"
   },
+  "homepage": "https://jyj1202.github.io/vue-lazy-cascader/",
   "author": "jyj1202",
   "license": "MIT",
   "scripts": {

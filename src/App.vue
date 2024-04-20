@@ -1,7 +1,8 @@
 <template>
   <div id="app">
+    el-cascader:
     <ElCascaderTest class="mr-10"></ElCascaderTest>
-    pro
+    VueLazyCascaderExample:
     <VueLazyCascaderExample></VueLazyCascaderExample>
   </div>
 </template>
