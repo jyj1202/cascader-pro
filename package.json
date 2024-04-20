@@ -22,13 +22,12 @@
   },
   "author": "jyj1202",
   "license": "MIT",
-  "peerDependencies": {
-  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name vue-lazy-cascader ./src/components/cascader/index.js",
-    "build:example": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build:example": "vue-cli-service build --dest example",
+    "lint": "vue-cli-service lint",
+    "release": "standard-version"
   },
   "dependencies": {
     "core-js": "^3.8.3",
@@ -43,6 +42,7 @@
     "element-ui": "^2.15.14",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "standard-version": "^9.5.0",
     "vue": "^2.6.14",
     "vue-template-compiler": "^2.6.14"
   },

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+  <div id="app">
+    <el-button type="primary">主要按钮</el-button>
+
+    <vue-lazy-cascader
+      v-model="selectedArr"
+      filterable
+      :props="props"
+      :show-all-levels="false"
+      remote
+      @menu-scroll-bottom="handleScrollBottom"
+      @suggestion-scroll-bottom="handleSuggestionScrollBottom"
+    >
+
+    </vue-lazy-cascader>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script>
+    // 生成一百条数据
+    const data = Array.from({ length: 10 }, (item, index) => ({
+      label: `远程选项${index + 1}`,
+      value: index + 1,
+      total: 30,
+      children: Array.from({ length: 30 }, (subItem, subIndex) => ({
+          label: `选项${index + 1}-${subIndex + 1}`,
+          value:   `${(index + 1)}-${subIndex + 1}`,
+          leaf: true,
+          parent: index + 1,
+          disabled: subIndex == 1
+      }))
+    }));
+    const rootData = Array.from({ length: 10 }, (item, index) => ({
+      label: `远程选项${index + 1}`,
+      value: index + 1,
+      children: [],
+      leaf: false,
+      total: 30,
+    }))
+
+    // 递归函数，用于搜索并返回符合条件的叶子节点
+    function searchLeaves(node, searchString, results) {
+      if (node.children) {
+          node.children.forEach(child => {
+              searchLeaves(child, searchString, results);
+          });
+      } else {
+          if (searchString === "" || node.label.includes(searchString)) {
+              results.push(node);
+          }
+      }
+    }
+
+    // 根据搜索字符串在树结构中查找符合条件的叶子节点，并返回扁平化的数据
+    function searchData(searchString, pageNum, pageSize) {
+        const results = [];
+        let startIndex = (pageNum - 1) * pageSize;
+        let endIndex = pageNum * pageSize;
+        
+        data.forEach(node => {
+            searchLeaves(node, searchString, results);
+        });
+        
+        const paginatedResults = results.slice(startIndex, endIndex);
+        
+        console.log('search xxxxxxxxxxx:',searchString, pageNum, pageSize, paginatedResults);
+      return {
+          total: results.length,
+          data: paginatedResults
+      };
+    }
+
+    // 查询指定父节点下的子节点数据并进行分页
+    function getData(parentId, pageNum, pageSize) {
+      const parentIndex = parentId - 1;
+      if (parentIndex >= 0 && parentIndex < data.length) {
+          const parent = data[parentIndex];
+          if (parent.children) {
+              const startIndex = (pageNum - 1) * pageSize;
+              const endIndex = pageNum * pageSize;
+              console.log('getData xxxxxxxxxxx:', parent.children.length, parent.children.slice(startIndex, endIndex));
+              return {
+                  total: parent.children.length,
+                  data: parent.children.slice(startIndex, endIndex)
+              };
+          }
+      }
+      return {
+          total: 0,
+          data: []
+      };
+    }
+  </script>
+  <script src="../lib/vue-lazy-cascader.umd.min.js"></script>
+  <script>
+    Vue.use(self['vue-lazy-cascader'].default)
+    // 或者component: { self['vue-lazy-cascader'].default }
+    var app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          selectedArr: ['1-1', '1-2'],
+          props: {
+            lazy: true,
+            multiple: true,
+            emitPath: false,
+            lazyLoad (node, resolve) {
+              const { level, root, isLeaf, data: nodeData } = node;
+              if (isLeaf) return resolve([])
+              setTimeout(() => {
+                if (root) {
+                  console.log('lazyload root');
+                  resolve(rootData)
+                } else {
+                  console.log('lazyload' , level);
+                  const {value: parentId} = nodeData
+                  nodeData.currentPage = 1
+                  nodeData.isEnd = false
+                  const {data: children, total} = getData(parentId, nodeData.currentPage, 10)
+                  if (node.children.length + children.length < total) {
+                    nodeData.isEnd = false
+                  } else {
+                    nodeData.isEnd = true
+                  }
+                  resolve(children)
+                }
+              }, 200);
+            },
+            remoteMethod: this.remoteMethod
+          },
+          searchCurrentPage: 0
+        }
+      },
+      methods: {
+        remoteMethod(query, resolve) {
+          if (query !== '') {
+            this.searchCurrentPage = 1
+            // this.loading = true;
+            setTimeout(() => {
+              // this.loading = false;
+              const res = searchData(query, this.searchCurrentPage, 10)
+              resolve(res.data)
+            }, 200);
+          }
+        },
+
+        handleScrollBottom(parentNode, resolve) {
+          if (parentNode) {
+            console.log(parentNode, 'handleScrollBottom parentNode');
+            const {data: nodeData} = parentNode
+            const {isEnd, value, total} = nodeData
+            // if (isEnd) return
+            nodeData.currentPage++
+            setTimeout(() => {
+              const {data: children, total} = getData(value, parentNode.data.currentPage, 10)
+              nodeData.total = total
+              if (parentNode.children.length + children.length < total) {
+                nodeData.isEnd = false
+              } else {
+                nodeData.isEnd = true
+              }
+              resolve(children)
+            }, 200);
+            
+          }
+        },
+
+        handleSuggestionScrollBottom(query, resolve) {
+          if (query !== '') {
+            this.searchCurrentPage++
+            setTimeout(() => {
+              const {data, total} = searchData(query, this.searchCurrentPage, 10)
+              resolve(data)
+            }, 200);
+          }
+        }
+      },
+    })
+  </script>
+</body>
+</html>
