@@ -5,7 +5,7 @@
   "description": "A cascader component based on element-ui, which retains the basic functionality of el-cascader while adding remote search and scroll loading of nodes.",
   "main": "./lib/vue-lazy-cascader.umd.min.js",
   "files": [
-    "lib",
+    "dist/lib",
     "README.md",
     "LICENSE"
   ],
@@ -24,8 +24,9 @@
   "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --target lib --name vue-lazy-cascader ./src/components/cascader/index.js",
-    "build:example": "vue-cli-service build --dest example",
+    "build:all": "pnpm build:example && pnpm build:lib",
+    "build:lib": "vue-cli-service build --target lib --name vue-lazy-cascader ./src/components/cascader/index.js --dest dist/lib",
+    "build:example": "vue-cli-service build --dest dist",
     "lint": "vue-cli-service lint",
     "release": "standard-version"
   },
