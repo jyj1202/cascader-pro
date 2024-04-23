@@ -6,6 +6,7 @@
     :show-all-levels="false"
     :options="options"
     remote
+    :append-to-body="false"
     @menu-scroll-bottom="handleScrollBottom"
     @suggestion-scroll-bottom="handleSuggestionScrollBottom"
   >
@@ -28,7 +29,7 @@ const options = Array.from({ length: 10 }, (item, index) => ({
       value:   `${(index + 1)}-${subIndex + 1}`,
       leaf: true,
       parent: index + 1,
-      disabled: subIndex == 14
+      // disabled: subIndex == 14
   })),
   leaf: false,
   total: 30,
