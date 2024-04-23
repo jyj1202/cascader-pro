@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.18](https://github.com/jyj1202/vue-lazy-cascader/compare/v0.1.17...v0.1.18) (2024-04-23)
+
+
+### Bug Fixes
+
+* 修复远程搜索无匹配数据时显示错误 ([d109596](https://github.com/jyj1202/vue-lazy-cascader/commit/d109596b6fa8299bdd3c0419246682f2e4d787fd))
+
 ### 0.1.17 (2024-04-20)
 
 
