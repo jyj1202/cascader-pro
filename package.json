@@ -1,11 +1,11 @@
 {
   "name": "vue-lazy-cascader",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "private": false,
   "description": "A cascader component based on element-ui, which retains the basic functionality of el-cascader while adding remote search and scroll loading of nodes.",
-  "main": "./lib/vue-lazy-cascader.umd.min.js",
+  "main": "./dist/lib/vue-lazy-cascader.umd.min.js",
   "files": [
-    "lib",
+    "dist/lib",
     "README.md",
     "LICENSE"
   ],
@@ -20,15 +20,16 @@
     "type": "git",
     "url": "git+https://github.com/jyj1202/vue-lazy-cascader.git"
   },
+  "homepage": "https://jyj1202.github.io/vue-lazy-cascader/",
   "author": "jyj1202",
   "license": "MIT",
-  "peerDependencies": {
-  },
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --target lib --name vue-lazy-cascader ./src/components/cascader/index.js",
-    "build:example": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build:all": "pnpm build:example && pnpm build:lib",
+    "build:lib": "vue-cli-service build --target lib --name vue-lazy-cascader ./src/components/cascader/index.js --dest dist/lib",
+    "build:example": "vue-cli-service build --dest dist",
+    "lint": "vue-cli-service lint",
+    "release": "standard-version"
   },
   "dependencies": {
     "core-js": "^3.8.3",
@@ -43,6 +44,7 @@
     "element-ui": "^2.15.14",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "standard-version": "^9.5.0",
     "vue": "^2.6.14",
     "vue-template-compiler": "^2.6.14"
   },
