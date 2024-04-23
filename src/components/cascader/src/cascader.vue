@@ -693,7 +693,10 @@ export default {
      */
     remoteSearchResolve(inputValue) {
       const resolve = (data) => {
-        if (isEmpty(data)) return
+        if (isEmpty(data)) {
+          this.getSuggestions();
+          return
+        }
         // 1.获取已经加载的节点value list
         const loadedFlattedNodesVals = this.panel.getFlattedNodes(false).map(n => n.value)
 
