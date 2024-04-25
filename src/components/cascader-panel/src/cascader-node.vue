@@ -125,6 +125,9 @@
 
       renderCheckbox(h) {
         const { node, config, isDisabled } = this;
+
+        const disabled = node.data.selfDisabled || isDisabled
+
         const events = {
           on: { change: this.handleMultiCheckChange },
           nativeOn: {}
@@ -138,7 +141,7 @@
           <el-checkbox
             value={ node.checked }
             indeterminate={ node.indeterminate }
-            disabled={ isDisabled }
+            disabled={ disabled }
             { ...events }
           ></el-checkbox>
         );

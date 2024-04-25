@@ -8,7 +8,7 @@ const data = Array.from({ length: 10 }, (item, index) => ({
       value:   `${(index + 1)}-${subIndex + 1}`,
       leaf: true,
       parent: index + 1,
-    //   disabled: subIndex == 14
+      disabled: subIndex == 14
   }))
 }));
 export const rootData = Array.from({ length: 10 }, (item, index) => ({
@@ -17,6 +17,8 @@ export const rootData = Array.from({ length: 10 }, (item, index) => ({
   children: [],
   leaf: false,
   total: 30,
+  // hideMultiple: true,
+  selfDisabled: true
 }))
 
 // 递归函数，用于搜索并返回符合条件的叶子节点
