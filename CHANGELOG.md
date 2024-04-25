@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.19](https://github.com/jyj1202/vue-lazy-cascader/compare/v0.1.18...v0.1.19) (2024-04-25)
+
+
+### Features
+
+* 新增多选可配置隐藏某个节点复选框 ([0f1cc0a](https://github.com/jyj1202/vue-lazy-cascader/commit/0f1cc0a979140c653be51b0a846426158e12f7b7))
+* 新增通过node.data.selfDisabled只禁用复选框，而不禁用整条选项 ([419d0e3](https://github.com/jyj1202/vue-lazy-cascader/commit/419d0e3e3d3db18472148bf9abdb9c8af8c61217))
+* 远程搜索新增加载中状态 ([01ea86e](https://github.com/jyj1202/vue-lazy-cascader/commit/01ea86e300987a1936b1339b02f523b054c06778))
+
+
+### Bug Fixes
+
+* 修复placeholder显示错误 ([44a0ee7](https://github.com/jyj1202/vue-lazy-cascader/commit/44a0ee7ed9aade27556fab5cc646c27d1769d738))
+
 ### [0.1.18](https://github.com/jyj1202/vue-lazy-cascader/compare/v0.1.17...v0.1.18) (2024-04-23)
 
 
