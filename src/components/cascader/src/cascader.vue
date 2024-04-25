@@ -16,7 +16,7 @@
       ref="input"
       v-model="multiple ? presentText : inputValue"
       :size="realSize"
-      :placeholder="placeholder"
+      :placeholder="presentTags.length ? '' : placeholder"
       :readonly="readonly"
       :disabled="isDisabled"
       :validate-event="false"

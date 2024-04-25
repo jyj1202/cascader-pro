@@ -7,6 +7,7 @@
     :options="options"
     remote
     :append-to-body="false"
+    clearable
     @menu-scroll-bottom="handleScrollBottom"
     @suggestion-scroll-bottom="handleSuggestionScrollBottom"
   >
