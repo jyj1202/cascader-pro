@@ -4,7 +4,6 @@
     filterable
     :props="props"
     :show-all-levels="false"
-    :options="options"
     remote
     :append-to-body="false"
     clearable

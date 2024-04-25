@@ -97,10 +97,10 @@
       },
 
       renderPrefix(h) {
-        const { isLeaf, isChecked, config } = this;
+        const { isLeaf, isChecked, config, node } = this;
         const { checkStrictly, multiple } = config;
 
-        if (multiple) {
+        if (multiple && !node.data.hideMultiple) {
           return this.renderCheckbox(h);
         } else if (checkStrictly) {
           return this.renderRadio(h);
