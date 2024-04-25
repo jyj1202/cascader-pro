@@ -82,7 +82,7 @@ export default {
           // this.loading = false;
           const res = searchData(query, this.searchCurrentPage, 10)
           resolve(res.data)
-        }, 200);
+        }, 2000);
       }
     },
 
@@ -113,7 +113,7 @@ export default {
         setTimeout(() => {
           const {data, total} = searchData(query, this.searchCurrentPage, 10)
           resolve(data)
-        }, 200);
+        }, 1000);
       }
     }
   },

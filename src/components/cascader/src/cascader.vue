@@ -89,23 +89,26 @@
           class="el-cascader__suggestion-panel"
           view-class="el-cascader__suggestion-list"
           @keydown.native="handleSuggestionKeyDown">
-          <template v-if="suggestions.length">
-            <li
-              v-for="(item, index) in suggestions"
-              :key="item.uid"
-              :class="[
-                'el-cascader__suggestion-item',
-                item.checked && 'is-checked'
-              ]"
-              :tabindex="-1"
-              @click="handleSuggestionClick(index)">
-              <span>{{ item.text }}</span>
-              <i v-if="item.checked" class="el-icon-check"></i>
-            </li>
+          <span v-if="suggestionLoading" style="text-align: center;">加载中</span>
+          <template v-else>
+            <template v-if="suggestions.length">
+              <li
+                v-for="(item, index) in suggestions"
+                :key="item.uid"
+                :class="[
+                  'el-cascader__suggestion-item',
+                  item.checked && 'is-checked'
+                ]"
+                :tabindex="-1"
+                @click="handleSuggestionClick(index)">
+                <span>{{ item.text }}</span>
+                <i v-if="item.checked" class="el-icon-check"></i>
+              </li>
+            </template>
+            <slot v-else name="empty">
+              <li class="el-cascader__empty-text">{{ t('el.cascader.noMatch') }}</li>
+            </slot>
           </template>
-          <slot v-else name="empty">
-            <li class="el-cascader__empty-text">{{ t('el.cascader.noMatch') }}</li>
-          </slot>
         </el-scrollbar>
       </div>
     </transition>
@@ -246,7 +249,9 @@ export default {
       filtering: false,
       suggestions: [],
       inputInitialHeight: 0,
-      pressDeleteCount: 0
+      pressDeleteCount: 0,
+
+      suggestionLoading: false, /** @author jyj */
     };
   },
 
@@ -380,6 +385,8 @@ export default {
        */
       const {remoteMethod} = this.config
       if (this.remote && remoteMethod) {
+        // this.suggestions = []
+        this.suggestionLoading = true
         remoteMethod(inputValue, this.remoteSearchResolve(inputValue))
         return
       }
@@ -693,6 +700,7 @@ export default {
      */
     remoteSearchResolve(inputValue) {
       const resolve = (data) => {
+        this.suggestionLoading = false
         if (isEmpty(data)) {
           this.getSuggestions();
           return
