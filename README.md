@@ -44,7 +44,26 @@ pnpm install vue-lazy-cascader --save
 
   - [demo](https://jyj1202.github.io/vue-lazy-cascader/vue-lazy-cascader.html)
 
+## description
+
+### Added Prop
+
+| 属性名            | 类型      | 描述               |
+|----------------|-----------|--------------------|
+| remote         | boolean   | 是否开启远程搜索     |
+| props.remoteMethod | (query: string, resolve: (any[]) => void)  | 远程搜索方法，回调接收搜索的数据作为参数，会将未加载的数据插入到级联的数据store中      |
+
+
+### Added Events
+
+| event name       |      callback parameter      | description                    |
+|------------------|------------------------------|--------------------------------|
+| menu-scroll-bottom     | (parentNode: Node, resolve: (any[]) => void) | 当菜单滚动到底部时触发，回调接收滚动加载的新数据作为参数，会将传入的未加载的数据插入到级联的数据store中。                                    |
+| suggestion-scroll-bottom | (query: string, resolve: (any[]) => void) | 当搜索列表滚动到底部时触发，回调接收搜索的数据作为参数，会将未加载的数据插入到级联的数据store中。                                  |
+
+
 ## Tip
-- 由于该组件并未打包element-ui相关组件，所以使用时，必须已经安装element-ui。
+- 该组件可以脱离element-ui使用（已打包了所需的element-ui代码）; 如果您的项目使用了类似于webpack的模块化构建工具，那么引入common.js.......
 - 级联value必须唯一，否则会出错。例如相同value的子节点无法插入到不同的父节点下（待修复）
 - 是否是最后一页要判断准确，不能单纯用已加载和接口返回相加数量 == total进行判断，因为接口返回的可能已经加载过了。[详情请看代码（搜索时候会把搜索结果append到节点store中）](./src/components/cascader/src/cascader.vue)
+- pop的层级如果不对，可以将appendToBody设置为false
