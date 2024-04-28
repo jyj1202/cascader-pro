@@ -18,7 +18,7 @@ export const rootData = Array.from({ length: 10 }, (item, index) => ({
   leaf: false,
   total: 30,
   // hideMultiple: true,
-  selfDisabled: true
+//   selfDisabled: true
 }))
 
 // 递归函数，用于搜索并返回符合条件的叶子节点

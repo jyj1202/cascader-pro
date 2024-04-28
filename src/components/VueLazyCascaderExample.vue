@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       selectedArr: ['1-1', '1-15'],
-      options: options,
+      // options: options,
       props: {
         lazy: true,
         multiple: true,

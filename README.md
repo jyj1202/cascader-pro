@@ -52,6 +52,7 @@ pnpm install vue-lazy-cascader --save
 |----------------|-----------|--------------------|
 | remote         | boolean   | 是否开启远程搜索     |
 | props.remoteMethod | (query: string, resolve: (any[]) => void)  | 远程搜索方法，回调接收搜索的数据作为参数，会将未加载的数据插入到级联的数据store中      |
+| props.total | string  | 指定选项子节点总数为选项对象的某个属性值，默认'total'     |
 
 
 ### Added Events
