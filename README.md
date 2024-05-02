@@ -64,7 +64,7 @@ pnpm install vue-lazy-cascader --save
 
 
 ## Tip
-- 该组件可以脱离element-ui使用（已打包了所需的element-ui代码）; 如果您的项目使用了类似于webpack的模块化构建工具，那么引入common.js.......
+- 该组件打包了所需的element-ui组件，但是并没有引入element-ui样式，所以在使用前必须引入'element-ui/lib/theme-chalk/index.css'
 - 级联value必须唯一，否则会出错。例如相同value的子节点无法插入到不同的父节点下（待修复）
 - 是否是最后一页要判断准确，不能单纯用已加载和接口返回相加数量 == total进行判断，因为接口返回的可能已经加载过了。[详情请看代码（搜索时候会把搜索结果append到节点store中）](./src/components/cascader/src/cascader.vue)
 - pop的层级如果不对，可以将appendToBody设置为false
